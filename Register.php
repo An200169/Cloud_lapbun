@@ -45,12 +45,12 @@
             include_once("connection.php");
             $pass = md5($pa);
             $sq = "SELECT * FROM user WHERE Username='$us' OR email='$mail'";
-            $res = mysqli_query($conn,$sq);
-            if(mysqli_num_rows($res)==0){
-                mysqli_query($conn,"INSERT INTO user (Username, Password, CustName, gender, Address, telephone, email, 
+            $res = pg_query($conn,$sq);
+            if(pg_num_rows($res)==0){
+                pg_query($conn,"INSERT INTO user (Username, Password, CustName, gender, Address, telephone, email, 
                 CusDate, CusMonth, CusYear, SSN, ActiveCode, state) 
                 VALUES ('$us', '$pass','$fname','$sex','$Address','$phone','$mail','$date','$month','$year','','',0)") 
-                or die (mysqli_error($conn));
+                ;
                 
                 echo "you have registered succesfully";
             }else{

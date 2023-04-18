@@ -14,14 +14,11 @@ include_once("connection.php");
                         <!--Load san pham tu DB -->
                            <?php
 						  // 	include_once("database.php");
-		  				   	$result = mysqli_query($conn, "SELECT * FROM product" );
+		  				   	$result = pg_query($conn, "SELECT * FROM product" );
 			
-			                if (!$result) { //add this check.
-                                die('Invalid query: ' . mysqli_error($conn));
-                            }
-		
+
 			            
-			                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+			                while($row = pg_fetch_array($result)){
 				            ?>
 				            <!--Product-->
                             <div class="single-product">

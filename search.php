@@ -155,11 +155,7 @@
         if (isset($_POST['btnSearch'])) {
             $search = $_POST['inputSearch'];
             $search = preg_replace("#[^0-9a-z]i#", "", $search);
-            $result = mysqli_query($conn, "SELECT * FROM `product` WHERE Product_Name LIKE '%$search%'");
-        }
-        // 	include_once("database.php");
-        if (!$result) { //add this check.
-            die('Invalid query: ' . mysqli_error($conn));
+            $result = pg_query($conn, "SELECT * FROM `product` WHERE Product_Name LIKE '%$search%'");
         }
         ?>
         <!-- include_once("findproduct.php"); -->
@@ -174,7 +170,7 @@
 
                                 <!--Load san pham tu DB -->
                                 <?php
-                                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                                while ($row = pg_fetch_array($result)) {
                                 ?>
                                     <!--Product-->
                                     <div class="single-product">

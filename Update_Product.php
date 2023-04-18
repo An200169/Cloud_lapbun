@@ -7,10 +7,10 @@
 	function bind_Category_List($conn,$selectedValue)
 	{
 		$sqlstring = "select Cat_ID, Cat_Name from category";
-		$result = mysqli_query($conn,$sqlstring);
+		$result = pg_query($conn,$sqlstring);
 		echo "<select name = 'CategoryList' class='from-control'>
 			  <option value = '0'> choose category </option>";
-			  while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
+			  while ($row = pg_fetch_array($result))
 			  {
 				if($row['Cat_ID']==$selectedValue)
 				{
@@ -58,8 +58,8 @@
 					if($pic['size']<=614400)
 					{
 						$sq = "Select * from product where Product_ID !='$id' and Product_Name ='$proname'";
-						$result = mysqli_query($conn,$sq);
-						if(mysqli_num_rows($result)==0)
+						$result = pg_query($conn,$sq);
+						if(pg_num_rows($result)==0)
 						{
 							copy($pic['tmp_name'],"product-imgs/".$pic['name']);
 							$filepic=$pic['name'];
@@ -68,7 +68,7 @@
 							DetailDesc = '$detail', Pro_qty = $qty,
 							Pro_image='$filepic', Cat_ID ='$category',
 							ProDate = '".date('Y-m-d H:i:s')."' WHERE Product_ID = '$id'";
-							mysqli_query($conn,$sqlstring);
+							pg_query($conn,$sqlstring);
 							echo '<meta http-equiv="refresh" content = "0;URL= Product_Management.php"/>';
 						}
 						else
@@ -89,15 +89,15 @@
 			else
 			{
 				$sq = "Select * from product where Product_ID !='$id' and Product_Name ='$proname'";
-				$result = mysqli_query($conn,$sq);
-				if(mysqli_num_rows($result)==0)
+				$result = pg_query($conn,$sq);
+				if(pg_num_rows($result)==0)
 				{
 					$sqlstring = "UPDATE product set Product_Name = '$proname',
 					Price = $price, SmallDesc = '$short', DetailDesc = '$detail', 
 					Pro_qty = $qty,Cat_ID ='$category',
 					ProDate='".date('Y-m-d H:i:s')."' WHERE Product_ID = '$id'";
 
-					mysqli_query($conn,$sqlstring);
+					pg_query($conn,$sqlstring);
 					echo '<meta http-equiv="refresh" content = "0;URL= ?page=product"/>';
 					}
 					else
@@ -114,8 +114,8 @@
 		$id = $_GET["id"];
 		$sqlstring = "Select Product_Name , Price, SmallDesc, DetailDesc, ProDate, Pro_qty,
 		Pro_image, Cat_ID from product where Product_id='$id'";
-		$result = mysqli_query($conn,$sqlstring);
-		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		$result = pg_query($conn,$sqlstring);
+		$row = pg_fetch_array($result);
 
 		$proname = $row['Product_Name'];
 		$short = $row['SmallDesc'];
