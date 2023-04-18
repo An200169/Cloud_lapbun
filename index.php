@@ -1,270 +1,532 @@
-<!DOCTYPE html>
-<html lang="en">
+
+    
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="description" content="Vinyl Template">
+    <meta name="keywords" content="Vinyl, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lap Bun Store</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ATN Shop</title>
 
-    <!-- Google Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" href="images/shortcut.png">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-
-    <!-- menu cap -->
-    <link href="csseshop/bootstrap.min.css" rel="stylesheet">
-    <link href="csseshop/font-awesome.min.css" rel="stylesheet">
-    <link href="csseshop/prettyPhoto.css" rel="stylesheet">
-    <link href="csseshop/price-range.css" rel="stylesheet">
-    <link href="csseshop/animate.css" rel="stylesheet">
-    <link href="csseshop/main.css" rel="stylesheet">
-    <link href="csseshop/responsive.css" rel="stylesheet">
-
-    <link href="css/salomon.css" rel="stylesheet">
-
-    <!--datatable-->
-    <script src="js/jquery-3.2.0.min.js" />
-    </script>
-    <script src="js/jquery.dataTables.min.js" />
-    </script>
-    <script src="js/dataTables.bootstrap.min.js" />
-    </script>
-
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="shortcut icon" href="ATNtoy\Logo.png">
 </head>
 
 <body>
-    <?php
-    session_start();
-    include_once("connection.php");
-    ?>
-    <header id="header"><!--header-->
-        <div class="header_top"><!--header_top-->
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="contactinfo">
-                            <ul class="nav nav-pills">
-                                <li><a href="#"><i class="fa fa-phone"></i> +84 091 7379 031</a></li>
-                                <li><a href="#"><i class="fa fa-envelope"></i> letfortrue@gmail.com</a></li>
-                            </ul>
+<?php
+session_start();
+//phpinfo();
+include_once("connection.php");
+?>
+    
+    
+
+    <!-- Humberger Begin -->
+    <div class="humberger__menu__overlay"></div>
+    <div class="humberger__menu__wrapper">
+        <div class="humberger__menu__logo">
+            <a href="?page=content"><img src="ATNtoy/Logo.png" alt=""></a>
+        </div>
+        <div class="humberger__menu__cart">
+            <ul>
+                <li><a href="#"><i class="fa fa-heart"></i> <span>2</span></a></li>
+                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+            </ul>
+            <div class="header__cart__price">item: <span>$00.00</span></div>
+        </div>
+        <div class="humberger__menu__widget">
+            <div class="header__top__right__language">
+                <img src="img/language.png" alt="">
+                <div>English</div>
+                <span class="arrow_carrot-down"></span>
+                <ul>
+                    <li><a href="#">Vietnamese</a></li>
+                    <li><a href="#">English</a></li>
+                </ul>
+            </div>
+            <div class="header__top__right__auth">
+            <?php 
+										if(isset($_SESSION['us']) && $_SESSION['us'] != ""){
+									?>
+									 <table>
+                                        <tr>
+                                            <td>
+                                                <a href="?page=prof"><i class="fa fa-user"></i> Hi,<?php echo $_SESSION['us'] ?></a>
+                                            </td>
+                                            <td>
+                                             <a href="?page=logout"><i class="fa fa-sign-out"></i>| Log Out</a>
+                                            </td>
+                                        
+                                        </tr>
+                                    </table>
+									<?php 
+										}
+										else{
+									?>
+									 <table>
+                                        <tr>
+                                            <td>
+                                                <a href="?page=login"><i class="fa fa-user"></i> Login |</a>
+                                            </td>
+                                            <td>
+                                                <a href="?page=register"></i>| Register</a>
+                                            </td>
+                                        
+                                        </tr>
+                                    </table>
+									<?php 
+										}
+									?>
+            </div>
+        </div>
+        <nav class="humberger__menu__nav mobile-menu">
+            <ul>
+                <li class="active"><a href="?page=content">Home</a></li>
+                <li><a href="?page=shop-grid">Shop</a></li>
+                <li><a href="#">Pages</a>
+                    <ul class="header__menu__dropdown">
+                        
+                        <li><a href="?page=shopping-cart">Shoping Cart</a></li>
+                        <li><a href="?page=checkout">Check Out</a></li>
+                        
+                    </ul>
+                </li>
+                
+                <li><a href="?page=contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div id="mobile-menu-wrap"></div>
+        <div class="header__top__right__social">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-linkedin"></i></a>
+            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+        </div>
+        <div class="humberger__menu__contact">
+            <ul>
+                <li><i class="fa fa-envelope"></i> kietlpagcc200083@fpt.edu.vn</li>
+                <li>ATN shop</li>
+            </ul>
+        </div>
+        <div class="col-lg-3">
+                    <div class="hero__categories">
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>All departments</span>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="social-icons pull-right">
-                            <ul class="nav navbar-nav">
-                            </ul>
-                        </div>
+                        <ul>
+                        <?php Department($conn); ?>
+                            
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </div><!--/header_top-->
+    </div>
+    <!-- Humberger End -->
 
-        <div class="header-middle" style="background-color:#069"><!--header-middle-->
-            <div class="container">
-                <div>
-                    <div class="col-sm-6">
-                        <div class="logo pull-left">
-                            <a href="index.php"><img src="images/logo.png" width="250" height="75"></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="shop-menu pull-right">
-                            <ul class="nav navbar-nav">
-                                <li><a href="#" style="background-color:#069;color:#FFF">
-                                        <i class="fa fa-shopping-cart"></i></a></li>
-                                <li><a href="?page=login" style="background-color:#069;color:#FFF">
-                                        <?php
-                                        if (isset($_SESSION['us']) && $_SESSION['us'] != "") {
-                                        ?>
-                                <li><a style="background-color:#069;color:#FFF" href="?page=Account">
-                                        <i class="fa fa-lock"></i>Hello, <?php echo $_SESSION['us']; ?></a></li>
-                                <li><a style="background-color:#069;color:#FFF" href="?page=logout">
-                                        <i class="fa fa-crosshairs"></i>Logout</a></li>
-                            <?php
-                                        } else {
-                            ?>
-                                <i class="fa fa-lock"></i>Login</a></li>
-                                <li><a href="?page=register" style="background-color:#069;color:#FFF">
-                                        <i class="fa fa-star"></i>Register</a></li>
-                            <?php
-                                        }
-                            ?>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><!--/header-middle-->
-
-        <div class="header-bottom"><!--header-bottom-->
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-9">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div class="mainmenu pull-left">
-                            <ul class="nav navbar-nav collapse navbar-collapse">
-                                <li><a href="index.php" class="active">Home</a></li>
-                                <li><a href="#">Feedback</a></li>
-                                <li><a href="#">Contact</a></li>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                                <li><i class="fa fa-envelope"></i> kietlpagcc200083@fpt.edu.vn</li>
+                                <li>A shopping website for toy </li>
                             </ul>
                         </div>
                     </div>
-                    <form action="search.php" method="POST">
-                        <div class="col-sm-3">
-                            <div class="search_box pull-right">
-                                <input type="text" placeholder="Search" name="inputSearch"/> <button class="btn btn-outline-secondary" type="submit" name="btnSearch">Search</button>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+                            <!-- <div class="header__top__right__social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                            </div> -->
+                            <div class="header__top__right__language">
+                                <img src="img/language.png" alt="">
+                                <div>English</div>
+                                <span class="arrow_carrot-down"></span>
+                                <ul>
+                                    <li><a href="#">Vietnamese</a></li>
+                                    <li><a href="#">English</a></li>
+                                </ul>
+                            </div>
+                            <div class="header__top__right__auth">
+                            <?php 
+										if(isset($_SESSION['us']) && $_SESSION['us'] != ""){
+									?>
+									 <table>
+                                        <tr>
+                                            <td>
+                                                <a href="?page=prof"><i class="fa fa-user"></i> Hi,<?php echo $_SESSION['us'] ?></a>
+                                            </td>
+                                            <td>
+                                             <a href="?page=logout"><i class="fa fa-sign-out"></i>| Log Out</a>
+                                            </td>
+                                        
+                                        </tr>
+                                    </table>
+									<?php 
+										}
+										else{
+									?>
+									 <table>
+                                        <tr>
+                                            <td>
+                                                <a href="?page=login"><i class="fa fa-user"></i> Login |</a>
+                                            </td>
+                                            <td>
+                                                <a href="?page=register"></i>| Register</a>
+                                            </td>
+                                        
+                                        </tr>
+                                    </table>
+									<?php 
+										}
+									?>
+                                
+                                
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div><!--/header-bottom-->
-    </header><!--/header-->
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <a href="?page=content"><img src="ATNtoy/Logo.png" alt=""></a>
+                    </div>
+                </div>
+                
+                
+                <div class="col-lg-6">
+                    <?php if(isset($_SESSION['us']) && $_SESSION['us'] != ""){
+                        ?> 
+                    <nav class="header__menu">
+                    
+                        <ul>
+                            <li class="active"><a href="?page=content">Home</a></li>
+                            <li><a href="?page=shop-grid">Shop</a></li>
+                            
+                            <?php  if(isset($_SESSION['admin']) && $_SESSION['admin'] == 1){ 
+
+                            ?>  <li><a id ="CMM"href="?page=pm">Product Management </a>
+                                    <ul class="header__menu__dropdown">
+                                    <li><a href="?page=cat">Category Management</a></li>
+                                    <li><a href="?page=branch">Branch Management</a></li>
+                                    <li><a href="?page=Supp">Supplier Management</a></li>
+                                    </ul>
+                                    <li><a href="?page=content">Pages</a>
+                                <ul class="header__menu__dropdown">
+                                    
+                                    <li><a href="?page=shopping-cart">Shoping Cart</a></li>
+                                    <li><a href="?page=checkout">Check Out</a></li>
+                                    
+                                </ul>
+                            </li>
+                                
+                            <?php } else {                         
+                            ?>
+                            <li><a href="?page=content">Pages</a>
+                                <ul class="header__menu__dropdown">
+                                    
+                                    <li><a href="?page=shopping-cart">Shoping Cart</a></li>
+                                    <li><a href="?page=checkout">Check Out</a></li>
+                                    
+                                </ul>
+                            </li>
+                           
+                            <li><a href="?page=contact">Contact</a></li>
+                            <?php 
+                                } 
+                             ?>
+                        </ul> 
+                        
+                    </nav>
+                    <?php 
+                        } else {
+                             ?> 
+                             <nav class="header__menu">
+                    
+                             <ul>
+                                 <li class="active"><a href="?page=content">Home</a></li>
+                                 <li><a href="?page=shop-grid">Shop</a></li>
+                                 
+                                
+                                 <li><a href="?page=contact">Contact</a></li>
+                                 <li><a href="?page=shopping-cart">Shoping Cart</a></li>
+                                 
+                             </ul> 
+                             
+                         </nav>
+                        <?php } ?>
+                             
+                </div>
+                    
+                   
+                <div class="col-lg-3">
+                    <div class="header__cart">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                        </ul>
+                        <div class="header__cart__price">item: <span>$00.00</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="humberger__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
     <?php
-    include_once("connection.php");
-    if (isset($_GET['page'])) {
+    if(isset($_GET['page']))
+    {
         $page = $_GET['page'];
-        if ($page == "register") {
-            include_once("Register.php");
-        } elseif ($page == "login") {
-            include_once("Login.php");
-        } elseif ($page == "logout") {
-            include_once("Logout.php");
-        } elseif ($page == "Account") {
-            include_once("Update_user.php");
-        }elseif ($page == "search") {
-            include_once("search.php");
+        if($page=="register")
+        {
+            include_once('Register.php');
         }
-    } else {
-        include_once("Content.php");
+        else if($page=="login")
+        {
+            include_once('LoginJS.php');
+        }
+        else if($page=="content")
+        {
+            include_once('content.php');
+        }else if($page=="logout")
+        {
+            include_once('logout.php');
+        }
+        else if($page=="shop-grid")
+        {
+            include_once('shop-grid.php');
+        }
+        else if($page=="shopping-cart")
+        {
+            include_once('shoping-cart.php');
+        }
+        else if($page=="shop-details")
+        {
+            include_once('shop-details.php');
+        }
+        else if($page=="checkout")
+        {
+            include_once('checkout.php');
+        }
+        else if($page=="contact")
+        {
+            include_once('contact.php');
+        }
+        else if($page=="pm")
+        {
+            include_once('Product_Management.php');
+        }
+        else if($page=="addp")
+        {
+            include_once('add_product.php');
+        }
+        else if($page=="edit")
+        {
+            include_once('update_product.php');
+        }
+        else if($page=="cat")
+        {
+            include_once('Category_Management.php');
+        }
+        else if($page=="addc")
+        {
+            include_once('Add_Category.php');
+        }
+        else if($page=="upc")
+        {
+            include_once('Update_Category.php');
+        }
+        else if($page=="upa")
+        {
+            include_once('update_account.php');
+        } else if($page=="prof")
+        {
+            include_once('profile.php');
+         } else if($page=="branch")
+         {
+             include_once('branch.php');
+         }
+        else if($page=="upbr")
+        {
+            include_once('update_branch.php');
+        } else if($page=="addbr")
+        {
+            include_once('add_branch.php');
+        }
+        else if($page=="Fea")
+    {
+        include_once('Featured.php');
     }
-    ?>
-    <div class="footer-top-area">
-        <div class="zigzag-bottom"></div>
+        
+        else if($page=="Supp")
+    {
+        include_once('Supplier.php');
+    }   
+    else if($page=="addSupp")
+    {
+        include_once('add_supplier.php');
+    }
+    else if($page=="updateSupp")
+    {
+        include_once('update_supplier.php');
+    }    
+       
+    }else
+    {
+        include_once ("content.php");
+    }
+
+?>
+   
+
+    
+
+    <!-- Footer Section Begin -->
+    <footer class="footer spad">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-about-us">
-                        <h2>Lap<span>Bun</span></h2>
-                        <p></p>
-                        <div class="footer-social">
-                            <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="fa fa-youtube"></i></a>
-                            <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__about__logo">
+                            <a href="./index.php"><img src="ATNtoy/Logo.png" alt=""></a>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu">
-                        <h2 class="footer-wid-title">User</h2>
                         <ul>
-                            <li><a href="#">Account</a></li>
-                            <li><a href="#">Bill</a></li>
-                            <li><a href="#">Interests</a></li>
-                            <li><a href="#">Supplier</a></li>
-                            <li><a href="#">Other information</a></li>
+                            <li>Address: 311, Ninh Kieu, Can Tho, Vietnam</li>
+                            <li>Phone: +84 949 010 942</li>
+                            <li>Email:kietlpagcc200083@fpt.edu.vn</li>
                         </ul>
                     </div>
                 </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu">
-                        <h2 class="footer-wid-title">Classify</h2>
+                <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+                    <div class="footer__widget">
+                        <h6>Useful Links</h6>
                         <ul>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">About Our Shop</a></li>
+                            <li><a href="#">Secure Shopping</a></li>
+                            <li><a href="#">Delivery infomation</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Our Sitemap</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="#">Who We Are</a></li>
+                            <li><a href="#">Our Services</a></li>
+                            <li><a href="#">Projects</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Innovation</a></li>
+                            <li><a href="#">Testimonials</a></li>
                         </ul>
                     </div>
                 </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-newsletter">
-                        <h2 class="footer-wid-title">News</h2>
-                        <p>Sign up for our news letter and get our exclusive deals.</p>
-                        <div class="newsletter-form">
-                            <form action="#">
-                                <input type="email" placeholder="Enter Email Address">
-                                <input type="submit" value="Submit">
-                            </form>
-                        </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer__widget">
+                        <h6>Join Our Newsletter Now</h6>
+                        <p>Get E-mail updates about our latest shop and special offers.</p>
+                        <form action="#">
+                            <input type="text" placeholder="Enter your mail">
+                            <button type="submit" class="site-btn">Subscribe</button>
+                        </form>
+                        <!-- <div class="footer__widget__social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer__copyright">
+                        <div class="footer__copyright__text"> Luu Pham Anh Kiet</div>
+                        <div class="footer__copyright__payment"><img src="img/payment-item.png" alt=""></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
+    <!-- Footer Section End -->
 
-    <div class="footer-bottom-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="copyright">
-                        <p>&copy; 2022 Lap Bun Store</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="footer-card-icon">
-                        <i class="fa fa-cc-discover"></i>
-                        <i class="fa fa-cc-mastercard"></i>
-                        <i class="fa fa-cc-paypal"></i>
-                        <i class="fa fa-cc-visa"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> <!-- End footer bottom area -->
-    <!-- Latest jQuery form server -->
-    <script src="https://code.jquery.com/jquery.min.js"></script>
-
-    <!-- Bootstrap JS form CDN -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
-    <!-- jQuery sticky menu -->
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-
-    <!-- jQuery easing -->
-    <script src="js/jquery.easing.1.3.min.js"></script>
-
-    <!-- Main Script -->
     <script src="js/main.js"></script>
-
-    <!-- Slider -->
-    <script type="text/javascript" src="js/bxslider.min.js"></script>
-    <script type="text/javascript" src="js/script.slider.js"></script>
-
-    <!--data table - dat dung vi tri nay-->
-    <script src="js/jquery.dataTables.min.js" />
+    <script >
+        function ConfirmDelete()
+        {
+            if(confirm("Are you sure? "))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     </script>
-    <script src="js/dataTables.bootstrap.min.js" />
-    </script>
-    <script src="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.bootstrap.min.css"></script>
-    <script src="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css"></script>
-</body>
+    <?php 
+    include_once("connection.php");
+	function Category_List($conn )
+	{
+		$sqlString = "SELECT cat_id, cat_name from category";
+		$result = pg_query($conn, $sqlString);
+		
+			while ($row=pg_fetch_array($result, NULL, PGSQL_ASSOC))
+			{
+				echo '<li ><a  href="?page=pm&&id='.$row['cat_id'].'">'.$row['cat_name'].'</a></li>';
+			}
+	}
+    function Featured($conn){
+        $sqlString = "SELECT cat_id, cat_name from category";
+        $result = pg_query($conn, $sqlString);
+        while ($row=pg_fetch_array($result, NULL, PGSQL_ASSOC))
+			{
+				echo '<li data-filter=".Cassette"><a href="?page=content&&id='.$row["cat_id"].'">'.$row["cat_name"].'</a></li>';
+			}
+    }
+    function Department($conn )
+	{
+		$sqlString = "SELECT cat_id, cat_name from category";
+		$result = pg_query($conn, $sqlString);
+		
+			while ($row=pg_fetch_array($result, NULL, PGSQL_ASSOC))
+			{
+				echo '<li ><a  href="?page=shop-grid&&id='.$row['cat_id'].'">'.$row['cat_name'].'</a></li>';    
+			}
+    }
+    
+    
+    ?>
+    
+    
 
-</html>
+
+
