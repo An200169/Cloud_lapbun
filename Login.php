@@ -1,69 +1,51 @@
-<link rel="stylesheet" type="text/css" href="style.css"/>
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/responsive.css">
-<script src="js/jquery-3.2.0.min.js"/></script>
-<script src="js/jquery.dataTables.min.js"/></script>
-<script src="js/dataTables.bootstrap.min.js"/></script>
 <?php
-    include_once("connection.php");
-    if(isset($_POST['btnLogin']))
-    { 
-        $us = $_POST['txtUsername'];
-        $pa = $_POST['txtPass'];
-        $err = "";
-        if($us == "")
-        {
-            $err .= "Enter Username, please!</br>";
-        }
-        if($pa == "")
-        {
-            $err .= "Enter password, please!</br>";
-        }
-        if($err!=""){
-            echo $err;
-        }else{
-            include_once("connection.php");
-            $pass = md5($pa);
-            $res = pg_query($conn," SELECT Username, Password, state FROM user WHERE Username = '$us' AND Password = '$pass'");
-            $row = pg_fetch_array($res);
-            if(pg_num_rows($res)==1){
-                $_SESSION["us"] = $us;
-                $_SESSION["admin"] = $row["state"];
-                if($row["state"] == 1){
-                    echo '<meta http-equiv="refresh" content="0;URL=indexadmin.php"/>';
-                }else{
-                    echo '<meta http-equiv="refresh" content="0;URL=index.php"/>';
-                }
-            }else{
-                echo "Your're loged in fail";
-            }
-        }   
+include('header.php');
+
+if (isset($_POST['btnLogin'])) {
+    $userName = $_POST['username'];
+    $pwd = md5($_POST['password']);
+    $sql = "SELECT * FROM public.users WHERE login_id = '$userName' and password = '$pwd'";
+    $re = pg_query($conn, $sql);
+    $rowUser = pg_fetch_assoc($re);
+    if (pg_num_rows($re) > 0) {
+        $_SESSION['user'] = $userName;
+        $_SESSION['role'] = $rowUser['role'];
+        echo "<script>
+        window.location = 'index.php?status=login';
+        </script>";
+        $e = false;
+    } else {
+        $e = true;
     }
+}
 ?>
-<h1>Login</h1>
-<form id="f" name="f" method="POST" action="">
-<div class="row">
-    <div class="form-group">				    
-        <label for="txtUsername" class="col-sm-2 control-label">Username(*):  </label>
-		<div class="col-sm-10">
-		      <input type="text" name="txtUsername" id="txtUsername" class="form-control" placeholder="Username" value=""/>
-		</div>
-      </div>  
-      
-    <div class="form-group">
-		<label for="txtPass" class="col-sm-2 control-label">Password(*):  </label>			
-		<div class="col-sm-10">
-		      	<input type="password" name="txtPass" id="txtPass" class="form-control" placeholder="Password" value=""/>
-		</div>
-	</div> 
-	<div class="form-group"> 
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
-        	<input type="submit" name="btnLogin"  class="btn btn-primary" id="btnLogin" value="Login"/>
-            <input type="submit" name="btnCancel"  class="btn btn-primary" id="btnLogin" value="Cancel"/>
-		</div>  
-	</div>
- </div>
-    
-</form>
-   
+<main style="min-height: calc(100vh - 116px - 56px - 246px);">
+    <form method="post">
+        <div class="col d-flex justify-content-center text-center">
+            <div class="form-outline mb-4">
+                <div class="container">
+                    <br></br>
+                    <h1 class="h3 mb-3 font-weight-normal"> L o g i n</h1>
+                    <?php if (isset($e)) { ?>
+                        <div class="container" class="alert alert-danger">
+                            <p style="color: red">Wrong username or password</p>
+                        </div>
+                    <?php } ?>
+                    <br>
+                    <input type="text" value="" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus placeholder="UserName">
+                    <br>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="Password">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <br>
+                    <a href="register.php">
+                        <p>Don't have an account?</p>
+                    </a>
+                    <button class="btn btn-lg btn-success" name="btnLogin" type="submit">Sign in</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+<?php
+include_once('footer.php');
+?>

@@ -1,270 +1,152 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+include_once("header.php");
+$sqlProduct = "SELECT id, name, suplier_id, shop_id, category_id, import_price, sell_price, quantitty, date, discription, image, status
+                FROM public.product WHERE status = 'Available' ORDER BY sell_price DESC LIMIT 3";
+$reProduct = pg_query($conn, $sqlProduct);
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lap Bun Store</title>
+$sqlNewProduct = "SELECT id, name, suplier_id, shop_id, category_id, import_price, sell_price, quantitty, date, discription, image, status
+FROM public.product WHERE status = 'Available' ORDER BY DATE(date) DESC ,date ASC LIMIT 3";
+$reNewProduct = pg_query($conn, $sqlNewProduct);
+?>
+<!-- Start Banner Hero -->
+<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+    </ol>
 
-    <!-- Google Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" href="images/shortcut.png">
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-
-    <!-- menu cap -->
-    <link href="csseshop/bootstrap.min.css" rel="stylesheet">
-    <link href="csseshop/font-awesome.min.css" rel="stylesheet">
-    <link href="csseshop/prettyPhoto.css" rel="stylesheet">
-    <link href="csseshop/price-range.css" rel="stylesheet">
-    <link href="csseshop/animate.css" rel="stylesheet">
-    <link href="csseshop/main.css" rel="stylesheet">
-    <link href="csseshop/responsive.css" rel="stylesheet">
-
-    <link href="css/salomon.css" rel="stylesheet">
-
-    <!--datatable-->
-    <script src="js/jquery-3.2.0.min.js" />
-    </script>
-    <script src="js/jquery.dataTables.min.js" />
-    </script>
-    <script src="js/dataTables.bootstrap.min.js" />
-    </script>
-
-</head>
-
-<body>
-    <?php
-    session_start();
-    include_once("connection.php");
-    ?>
-    <header id="header"><!--header-->
-        <div class="header_top"><!--header_top-->
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="contactinfo">
-                            <ul class="nav nav-pills">
-                                <li><a href="#"><i class="fa fa-phone"></i> +84 091 7379 031</a></li>
-                                <li><a href="#"><i class="fa fa-envelope"></i> letfortrue@gmail.com</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="social-icons pull-right">
-                            <ul class="nav navbar-nav">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><!--/header_top-->
-
-        <div class="header-middle" style="background-color:#069"><!--header-middle-->
-            <div class="container">
-                <div>
-                    <div class="col-sm-6">
-                        <div class="logo pull-left">
-                            <a href="index.php"><img src="images/logo.png" width="250" height="75"></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="shop-menu pull-right">
-                            <ul class="nav navbar-nav">
-                                <li><a href="#" style="background-color:#069;color:#FFF">
-                                        <i class="fa fa-shopping-cart"></i></a></li>
-                                <li><a href="?page=login" style="background-color:#069;color:#FFF">
-                                        <?php
-                                        if (isset($_SESSION['us']) && $_SESSION['us'] != "") {
-                                        ?>
-                                <li><a style="background-color:#069;color:#FFF" href="?page=Account">
-                                        <i class="fa fa-lock"></i>Hello, <?php echo $_SESSION['us']; ?></a></li>
-                                <li><a style="background-color:#069;color:#FFF" href="?page=logout">
-                                        <i class="fa fa-crosshairs"></i>Logout</a></li>
-                            <?php
-                                        } else {
-                            ?>
-                                <i class="fa fa-lock"></i>Login</a></li>
-                                <li><a href="?page=register" style="background-color:#069;color:#FFF">
-                                        <i class="fa fa-star"></i>Register</a></li>
-                            <?php
-                                        }
-                            ?>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><!--/header-middle-->
-
-        <div class="header-bottom"><!--header-bottom-->
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-9">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div class="mainmenu pull-left">
-                            <ul class="nav navbar-nav collapse navbar-collapse">
-                                <li><a href="index.php" class="active">Home</a></li>
-                                <li><a href="#">Feedback</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <form action="search.php" method="POST">
-                        <div class="col-sm-3">
-                            <div class="search_box pull-right">
-                                <input type="text" placeholder="Search" name="inputSearch"/> <button class="btn btn-outline-secondary" type="submit" name="btnSearch">Search</button>
+    <div class="carousel-inner">
+        <?php
+        $i = 0;
+        while ($rowProduct = pg_fetch_assoc($reProduct)) {
+            $i++;
+            if ($i == 1) { ?>
+                <div class="carousel-item active">
+                    <div class="container">
+                        <div class="row p-5">
+                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                                <a href="shop-single.php?id=<?= $rowProduct['id'] ?>">
+                                    <img class="img-fluid" src="./assets/img/<?= $rowProduct['image'] ?>" height="450px" width="450px" alt="img">
+                                </a>
+                            </div>
+                            <div class="col-lg-6 mb-0 d-flex align-items-center">
+                                <div class="text-align-left align-self-center">
+                                    <h1 class="h1 text-success"><b>ATN</b> Best Products</h1>
+                                    <a href="shop-single.php?id=<?= $rowProduct['id'] ?>" class="text-decoration-none text-reset">
+                                        <h3 class="h2"><?= $rowProduct['name'] ?></h3>
+                                    </a>
+                                    <p><?= $rowProduct['discription'] ?></p>
+                                </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </div><!--/header-bottom-->
-    </header><!--/header-->
-    <?php
-    include_once("connection.php");
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
-        if ($page == "register") {
-            include_once("Register.php");
-        } elseif ($page == "login") {
-            include_once("Login.php");
-        } elseif ($page == "logout") {
-            include_once("Logout.php");
-        } elseif ($page == "Account") {
-            include_once("Update_user.php");
-        }elseif ($page == "search") {
-            include_once("search.php");
-        }
-    } else {
-        include_once("Content.php");
-    }
-    ?>
-    <div class="footer-top-area">
-        <div class="zigzag-bottom"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-about-us">
-                        <h2>Lap<span>Bun</span></h2>
-                        <p></p>
-                        <div class="footer-social">
-                            <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="fa fa-youtube"></i></a>
-                            <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
+            <?php } else { ?>
+                <div class="carousel-item">
+                    <div class="container">
+                        <div class="row p-5">
+                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                                <a href="shop-single.php?id=<?= $rowProduct['id'] ?>">
+                                    <img class="img-fluid" src="./assets/img/<?= $rowProduct['image'] ?>" height="450px" width="450px" alt="img">
+                                </a>
+                            </div>
+                            <div class="col-lg-6 mb-0 d-flex align-items-center">
+                                <div class="text-align-left">
+                                    <a href="shop-single.php?id=<?= $rowProduct['id'] ?>" class="text-decoration-none text-reset">
+                                        <h1 class="h1"><?= $rowProduct['name'] ?></h1>
+                                    </a>
+                                    <p>
+                                        <?= $rowProduct['discription'] ?>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+        <?php }
+        } ?>
+    </div>
+    <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+        <i class="fas fa-chevron-left"></i>
+    </a>
+    <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+        <i class="fas fa-chevron-right"></i>
+    </a>
+</div>
+<!-- End Banner Hero -->
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu">
-                        <h2 class="footer-wid-title">User</h2>
-                        <ul>
-                            <li><a href="#">Account</a></li>
-                            <li><a href="#">Bill</a></li>
-                            <li><a href="#">Interests</a></li>
-                            <li><a href="#">Supplier</a></li>
-                            <li><a href="#">Other information</a></li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu">
-                        <h2 class="footer-wid-title">Classify</h2>
-                        <ul>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-newsletter">
-                        <h2 class="footer-wid-title">News</h2>
-                        <p>Sign up for our news letter and get our exclusive deals.</p>
-                        <div class="newsletter-form">
-                            <form action="#">
-                                <input type="email" placeholder="Enter Email Address">
-                                <input type="submit" value="Submit">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- Start Categories of The Month -->
+<section class="container py-5">
+    <div class="row text-center pt-3">
+        <div class="col-lg-6 m-auto">
+            <h1 class="h1">Shop list</h1>
+            <!-- <p>
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.
+            </p> -->
         </div>
     </div>
+    <div class="row">
+        <div class="col-12 col-md-4 p-5 mt-3">
+            <a href="#"><img src="./assets/img/shop1.jpg" class="rounded-circle img-fluid border"></a>
+            <h5 class="text-center mt-3 mb-3">Ha Noi ATN Shop</h5>
+            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+        </div>
+        <div class="col-12 col-md-4 p-5 mt-3">
+            <a href="#"><img src="./assets/img/shop2.jpg" class="rounded-circle img-fluid border"></a>
+            <h2 class="h5 text-center mt-3 mb-3">Da Nang ATN Shop</h2>
+            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+        </div>
+        <div class="col-12 col-md-4 p-5 mt-3">
+            <a href="#"><img src="./assets/img/shop3.jpg" class="rounded-circle img-fluid border"></a>
+            <h2 class="h5 text-center mt-3 mb-3">Ho Chi Minh ATN Shop</h2>
+            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+        </div>
+    </div>
+</section>
+<!-- End Categories of The Month -->
 
-    <div class="footer-bottom-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="copyright">
-                        <p>&copy; 2022 Lap Bun Store</p>
-                    </div>
-                </div>
 
-                <div class="col-md-4">
-                    <div class="footer-card-icon">
-                        <i class="fa fa-cc-discover"></i>
-                        <i class="fa fa-cc-mastercard"></i>
-                        <i class="fa fa-cc-paypal"></i>
-                        <i class="fa fa-cc-visa"></i>
-                    </div>
-                </div>
+<!-- Start Featured Product -->
+<section class="bg-light">
+    <div class="container py-5">
+        <div class="row text-center py-3">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">New Products</h1>
+                <p>These are our latest products, you can check them out</p>
             </div>
         </div>
-    </div> <!-- End footer bottom area -->
-    <!-- Latest jQuery form server -->
-    <script src="https://code.jquery.com/jquery.min.js"></script>
+        <div class="row">
+            <?php while ($rowNewProduct = pg_fetch_assoc($reNewProduct)) { ?>
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <a href="shop-single.php?id=<?= $rowNewProduct['id'] ?>">
+                            <img src="./assets/img/<?= $rowNewProduct['image'] ?>" class="card-img-top" alt="...">
+                        </a>
+                        <div class="card-body">
+                            <ul class="list-unstyled d-flex justify-content-between">
+                                <li class="text-muted text-right">Price</li>
+                                <li class="text-muted text-right"><?= $rowNewProduct['sell_price'] ?></li>
+                            </ul>
+                            <a href="shop-single.php?id=<?= $rowNewProduct['id'] ?>" class="h2 text-decoration-none text-dark"><?= $rowNewProduct['name'] ?></a>
+                            <!-- <p class="card-text">
+                                <?php 
+                                // echo $rowNewProduct['discription']; 
+                                ?>
+                            </p> -->
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</section>
+<!-- End Featured Product -->
 
-    <!-- Bootstrap JS form CDN -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-    <!-- jQuery sticky menu -->
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-
-    <!-- jQuery easing -->
-    <script src="js/jquery.easing.1.3.min.js"></script>
-
-    <!-- Main Script -->
-    <script src="js/main.js"></script>
-
-    <!-- Slider -->
-    <script type="text/javascript" src="js/bxslider.min.js"></script>
-    <script type="text/javascript" src="js/script.slider.js"></script>
-
-    <!--data table - dat dung vi tri nay-->
-    <script src="js/jquery.dataTables.min.js" />
-    </script>
-    <script src="js/dataTables.bootstrap.min.js" />
-    </script>
-    <script src="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.bootstrap.min.css"></script>
-    <script src="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css"></script>
-</body>
-
-</html>
+<!-- Start Footer -->
+<?php
+include_once("footer.php")
+?>

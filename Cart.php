@@ -1,213 +1,85 @@
-<script>
-        function deleteConfirm(){
-            if(confirm("Are you sure?")){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-    </script>
-    <script>
-        function checkoutConfirm(){
-            if(confirm("Thanks for support")){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-    </script>
+<?php
+include_once('header.php');
+if (isset($_SESSION['user'])) {
+    $id = $rowUser['id'];
+    $sqlSelectCart = "SELECT c.id, p.name, p.image, p.sell_price, c.quantity 
+        FROM public.cart c, public.product p WHERE c.product_id = p.id and user_id = $id";
+    $reCart = pg_query($conn, $sqlSelectCart);
+    // $rowCart = pg_fetch_assoc($reCart);
+}
+?>
+<section class="h-100 h-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-lg-8">
+                                <div class="p-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                        <h6 class="mb-0 text-muted"><?= pg_num_rows($reCart) ?> item(s)</h6>
+                                    </div>
+                                    <?php
+                                    $sum = 0;
+                                    while ($rowCart = pg_fetch_assoc($reCart)) {
+                                    ?>
+                                        <hr class="my-4">
 
+                                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                <img src="assets/img/<?= $rowCart['image'] ?>" class="img-fluid rounded-3" alt="img">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                <!-- <h6 class="text-muted">Shirt</h6> -->
+                                                <h6 class="text-black mb-0"><?= $rowCart['name'] ?></h6>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                <?php ?>
+                                                <input id="form1" min="0" name="quantity" value="<?= $rowCart['quantity'] ?>" type="number" class="form-control form-control-sm" readonly/>
+                                            </div>
+                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                <h6 class="mb-0"><span>&#8363;</span><?= $rowCart['quantity'] ?> * <?= $rowCart['sell_price'] ?></h6>
+                                            </div>
+                                            <?php
+                                            $sum = $sum + $rowCart['quantity'] * $rowCart['sell_price'];
+                                            ?>
+                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                <a href="deleteCart.php?id=<?=$rowCart['id']?>" class="text-muted text-decoration-none">x</a>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
+                                    <hr class="my-4">
 
- 
-
-    
-
-   
-
-    <!-- Hero Section Begin -->
-    <section class="hero hero-normal">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>All departments</span>
-                        </div>
-                        <ul>
-                        
-                        <?php Department($conn ); ?>
-                            
-                        
-                            
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="#">
-                                
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
+                                    <div class="pt-5">
+                                        <h6 class="mb-0"><a href="shop.php" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+84 949 010 942</h5>
-                                <span>support 24/7 time</span>
+                            <div class="col-lg-4 bg-grey">
+                                <div class="p-5">
+                                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                                    <hr class="my-4">
+
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <h5 class="text-uppercase">Total price</h5>
+                                        <h5><span>&#8363;</span> <?= $sum ?></h5>
+                                    </div>
+
+                                    <a href="createOrder.php"><button type="button" class="btn btn-success btn-block btn-lg" data-mdb-ripple-color="dark">Payment</button></a>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Hero Section End -->
-
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="ATNtoy/background.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Shopping Cart</h2>
-                        <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <span>Shopping Cart</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
-
-    <!-- Shoping Cart Section Begin -->
-   
-    <section class="shoping-cart spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shoping__cart__table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class="shoping__product">Products</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-    
-    <?php
-    
-    
-        if(isset($_GET["function"]) =="del"){
-            if(isset($_GET["id"])){
-                $id =$_GET["id"];
-            if(isset($_SESSION['cart']))
-            {
-                unset($_SESSION['cart'][$id]);
-            }
-            
-            echo '<meta http-equiv="refresh" content="0; URL=?page=shopping-cart"/>' ;
-            
-
-        }
-        }
-
-    
-    ?>
-    <?php  if(isset($_GET["function1"]) =="delc"){
-            if(isset($_GET["id"])){
-                $id =$_GET["id"];
-            if(isset($_SESSION['cart']))
-            {
-                unset($_SESSION['cart']);
-            }
-            
-            echo '<meta http-equiv="refresh" content="0; URL=?page=shopping-cart"/>' ;
-            
-
-        }
-        }?> 
-                            <?php 
-                                $total =0;
-                                if(isset($_SESSION['cart']))
-                                {
-                                    foreach($_SESSION['cart'] as $key => $value):
-                                        $item_price = $value['price'] * $value['qty'];
-                                        $total += $item_price;
-                                        
-                                ?>
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <img src="ATNtoy/<?php echo $value['img'] ?>" alt="">
-                                        <h5><?php echo $value['name'] ?></h5>
-                                    </td>
-                                    <td class="shoping__cart_price">
-                                        <?php echo $value['price'] ?>
-                                    </td>
-                                    <td class="shoping__cart__quantity">                                      
-                                        <?php echo $value['qty'] ?>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        <?php echo $item_price ?>
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                    <a href="?page=shopping-cart&&function=del&&id=<?php echo $key;?>" onclick="return deleteConfirm()"><span class="icon_close"></span>
-                                    </td>
-                                </tr>
-                                <?php endforeach;
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shoping__cart__btns">
-                        <a href="?page=shop-grid" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                            Upadate Cart</a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="shoping__continue">
-                        <div class="shoping__discount">
-                            <h5>Discount Codes</h5>
-                            <form action="#">
-                                <input type="text" placeholder="Enter your coupon code">
-                                <button type="submit" class="site-btn">APPLY COUPON</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="shoping__checkout">
-                        <h5>Cart Total</h5>
-                        <ul>
-                            <li>Subtotal <span><?php echo $total ?></li>
-                            <li>Tax <span><?php echo $total*0.1 ?></span></li>
-                            <li>Total <span><?php echo $total*1.1 ?></span></li>
-                        </ul>
-                        <a href="?page=cart&&function1=delc&&id=<?php echo $key;?>" onclick="return checkoutConfirm() class="primary-btn>PROCEED TO CHECKOUT</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Shoping Cart Section End -->
-
-   
-    
+    </div>
+</section>
+<?php
+include_once('footer.php');
+?>
