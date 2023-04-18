@@ -2,7 +2,7 @@
 include_once('header.php');
 if(isset($_GET['id'])){
     $id = $_GET['id'];
-    $sqlSelectShop = "SELECT id, name, adress, email, phone FROM public.shop WHERE id = '$id'";
+    $sqlSelectShop = "SELECT id, name, address, email, phone FROM public.shop WHERE id = '$id'";
     $reShop = pg_query($conn, $sqlSelectShop);
     $rowShop = pg_fetch_assoc($reShop);
 
@@ -13,7 +13,7 @@ if(isset($_GET['id'])){
         $shopPhone = pg_escape_string($conn, $_POST['phone']);
     
         $updateShop = "UPDATE public.shop 
-        SET name='$shopName', adress='$shopAddress', email='$shopEmail', phone='$shopPhone'
+        SET name='$shopName', address='$shopAddress', email='$shopEmail', phone='$shopPhone'
         WHERE id = '$id'";
         if (pg_query($conn, $updateShop)) {
             echo "<script>
@@ -39,7 +39,7 @@ if(isset($_GET['id'])){
             </div>
             <div class="mb-3">
                 <label for="inputmessage">Address*</label>
-                <textarea class="form-control mt-1" id="address" name="address" placeholder="Address..." rows="3"><?= $rowShop['adress'] ?></textarea>
+                <textarea class="form-control mt-1" id="address" name="address" placeholder="Address..." rows="3"><?= $rowShop['address'] ?></textarea>
             </div>
             <div class="mb-3">
                 <label for="inputsubject">Email*</label>

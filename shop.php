@@ -65,7 +65,8 @@ $reCategory = pg_query($conn, $sqlCategory);
                     <div class="col-md-4">
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
-                            <a href="shop-single.php?id=<?= $rowProduct['id'] ?>"><img class="card-img rounded-0 img-fluid" src="assets/img/<?= $rowProduct['image'] ?>"></a>                                
+                                <a href="shop-single.php?id=<?= $rowProduct['id'] ?>"><img class="card-img rounded-0 img-fluid" src="assets/img/<?= $rowProduct['image'] ?>"></a>
+                                
                                 <!-- <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"> -->
                                     <!-- <ul class="list-unstyled">
                                         <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>

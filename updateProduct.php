@@ -82,13 +82,13 @@ if (isset($_GET['id'])) {
                     <select class="custom-select form-control mt-1" name="shop" id="shop" required="required">
                         <option value="">Choose Shop...</option>
                         <?php
-                        $sqlShop = "SELECT id, adress, email, phone FROM public.shop;";
+                        $sqlShop = "SELECT id, address, email, phone FROM public.shop;";
                         $reShop = pg_query($conn, $sqlShop);
                         while ($rowShop = pg_fetch_assoc($reShop)) {
                             if ($rowSelectProduct['shop_id'] == $rowShop['id']) { ?>
-                                <option selected value="<?= $rowShop['id'] ?>"><?= $rowShop['adress'] ?></option>
+                                <option selected value="<?= $rowShop['id'] ?>"><?= $rowShop['address'] ?></option>
                             <?php } else { ?>
-                                <option value="<?= $rowShop['id'] ?>"><?= $rowShop['adress'] ?></option>
+                                <option value="<?= $rowShop['id'] ?>"><?= $rowShop['address'] ?></option>
                         <?php }
                         } ?>
                     </select>

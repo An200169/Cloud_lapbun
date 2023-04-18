@@ -6,7 +6,7 @@ if (isset($_POST['addShop'])) {
     $shopEmail = pg_escape_string($conn, $_POST['email']);
     $shopPhone = pg_escape_string($conn, $_POST['phone']);
 
-    $insertShop = "INSERT INTO public.shop (name, adress, email, phone) VALUES ('$shopName', '$shopAddress', '$shopEmail', '$shopPhone')";
+    $insertShop = "INSERT INTO public.shop (name, address, email, phone) VALUES ('$shopName', '$shopAddress', '$shopEmail', '$shopPhone')";
     if (pg_query($conn, $insertShop)) {
         echo "<script>
                 window.location = 'shopManage.php?status=insert';

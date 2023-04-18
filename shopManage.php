@@ -1,6 +1,6 @@
 <?php
 include_once('header.php');
-$sqlShop = "SELECT id, name, adress, email, phone FROM public.shop;";
+$sqlShop = "SELECT id, name, address, email, phone FROM public.shop;";
 $reShop = pg_query($conn, $sqlShop);
 ?>
 <br>
@@ -29,7 +29,7 @@ $reShop = pg_query($conn, $sqlShop);
                     ?>
                         <tr>
                             <td><?= $rowShop['name'] ?></td>
-                            <td><?= $rowShop['adress'] ?></td>
+                            <td><?= $rowShop['address'] ?></td>
                             <td><?= $rowShop['email'] ?></td>
                             <td><?= $rowShop['phone'] ?></td>
                             <td><a href="updateShop.php?id=<?= $rowShop['id'] ?>" class="btn btn-success rounded-pill"> Update </a></td>

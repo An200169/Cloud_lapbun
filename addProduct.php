@@ -65,7 +65,7 @@ if (isset($_POST['addProduct'])) {
                     <select class="custom-select form-control mt-1" name="shop" id="shop" required="required">
                         <option value="">Choose Shop...</option>
                         <?php
-                        $sqlShop = "SELECT id, name, adress, email, phone FROM public.shop;";
+                        $sqlShop = "SELECT id, name, address, email, phone FROM public.shop;";
                         $reShop = pg_query($conn, $sqlShop);
                         while ($rowShop = pg_fetch_assoc($reShop)) {
                         ?>

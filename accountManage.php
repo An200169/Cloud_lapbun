@@ -1,6 +1,6 @@
 <?php
 include_once('header.php');
-$sqlAllUser = "SELECT id, login_id, password, full_name, role, gender, phone, email, address, birthday FROM public.users";
+$sqlAllUser = "SELECT id, login_id, password, full_name, role, gender, phone, email, address, date_of_birht FROM public.users";
 $reAllUser = pg_query($conn, $sqlAllUser)
 ?>
 <br>
@@ -22,7 +22,7 @@ $reAllUser = pg_query($conn, $sqlAllUser)
                         <th scope="col">Phone</th>
                         <th scope="col">Email</th>
                         <th scope="col">Address</th>
-                        <th scope="col">Birthday</th>
+                        <th scope="col">Date of Birht</th>
                         <!-- <th scope="col"></th>
                         <th scope="col"></th> -->
                     </tr>
@@ -39,7 +39,7 @@ $reAllUser = pg_query($conn, $sqlAllUser)
                         <td><?= $rowAllUser['phone'] ?></td>
                         <td><?= $rowAllUser['email'] ?></td>
                         <td><?= $rowAllUser['address'] ?></td>
-                        <td><?= $rowAllUser['birthday'] ?></td>
+                        <td><?= $rowAllUser['date_of_birht'] ?></td>
                         <!-- <td><a href="#?id=<?///= $rowAllUser['id'] ?>" class="btn btn-success rounded-pill"> Update </a></td>
                         <td><a href="#?id=<?//= $rowAllUser['id'] ?>" class="btn btn-success rounded-pill"> Delete </a></td> -->
                     </tr>

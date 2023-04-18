@@ -2,7 +2,7 @@
 include_once("header.php");
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $selectProduct = "SELECT p.id, p.name, sup.name as suplier_name, s.adress as shop_address, c.name as category_name, p.import_price, p.sell_price, p.quantitty, p.date, p.discription, p.image, p.status
+    $selectProduct = "SELECT p.id, p.name, sup.name as suplier_name, s.address as shop_address, c.name as category_name, p.import_price, p.sell_price, p.quantitty, p.date, p.discription, p.image, p.status
 	                    FROM public.product p, public.suplier sup, public.shop s, public.category c 
 	                    WHERE p.suplier_id = sup.id and p.shop_id = s.id and p.category_id = c.id and p.id = '$id'";
     $reSelectProduct = pg_query($conn, $selectProduct);

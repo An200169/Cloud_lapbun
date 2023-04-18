@@ -1,6 +1,6 @@
 <?php
 include_once('header.php');
-$sqlProduct = "SELECT p.id, p.name, sup.name as suplier_name, s.adress as shop_address, c.name as category_name, p.import_price, p.sell_price, p.quantitty, p.date, p.discription, p.image, p.status
+$sqlProduct = "SELECT p.id, p.name, sup.name as suplier_name, s.address as shop_address, c.name as category_name, p.import_price, p.sell_price, p.quantitty, p.date, p.discription, p.image, p.status
                 FROM public.product p, public.suplier sup, public.shop s, public.category c 
                 WHERE p.suplier_id = sup.id and p.shop_id = s.id and p.category_id = c.id;";
 $reProduct = pg_query($conn, $sqlProduct)
