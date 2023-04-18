@@ -1,129 +1,135 @@
 
-
-<!-- Hero Section Begin -->
-<section class="hero hero-normal">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>All Department</span>
-                        </div>
-                        <ul>
-						    <?php Department($conn); ?>
-                        </ul>
-                        <ul>
-                        <li ><a  href="?page=pm">All</a></li>
-
-                        <?php Category_List($conn ); ?>
-                            
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                    
-                                </div>
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+84 949 010 942</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Hero Section End -->
-
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="ATNtoy/background.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Products Management</h2>
-                        <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <span>Products Management</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
-
+<!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="scripts/ckeditor/ckeditor.js"></script>
 <?php
-	include_once("connection.php");
-	function bind_Category_List($conn, $selectedValue)
+	include_once ("connection.php");
+	function bind_Category_List($conn,$selectedValue)
 	{
-		$sqlString = "SELECT cat_id, cat_name from category";
-		$result = pg_query($conn, $sqlString);
-echo "<SELECT name ='CategoryList' class='from-control'>
-			<option value='0'>Choose Category</option>";
-			while ($row=pg_fetch_array($result,NULL, PGSQL_ASSOC))
-			{
-				if($row['cat_id']==$selectedValue)
+		$sqlstring = "select Cat_ID, Cat_Name from category";
+		$result = pg_query($conn,$sqlstring);
+		echo "<select name = 'CategoryList' class='from-control'>
+			  <option value = '0'> choose category </option>";
+			  while ($row = pg_fetch_array($result))
+			  {
+				if($row['Cat_ID']==$selectedValue)
 				{
-					echo "<option value ='".$row['cat_id']."' selected>".$row['cat_name']."</option>";
+					echo "<option value ='" .$row['Cat_ID']."' selected>".$row['Cat_Name']."</option>";
+				}else
+				{
+					echo "<option value = '" .$row['Cat_ID']."'>".$row['Cat_Name']."</opton>";
+				}
+			}
+	echo "</selected>";	
+	}
+		include_once ("connection.php");
+		if(isset($_POST["btnUpdate"])){
+		$id = $_POST["txtID"];
+		$proname = $_POST["txtName"];
+		$short = $_POST["txtShort"];
+		$detail = $_POST["txtDetail"];
+		$price = $_POST["txtPrice"];
+		$qty = $_POST["txtQty"];
+		$pic = $_FILES["txtImage"];
+		$category = $_POST["CategoryList"];
+		$err = "";
+
+		if(trim($id)==""){
+			$err.="<li> Enter product ID,please!</li>";
+		}
+		if(trim($proname)==""){
+			$err.="<li> Enter product Name,Please!</li>";
+		}
+		if($category=="0"){
+			$err.= "<li> Choose product category, please!</li>";
+		}
+		if(!is_numeric($price)){
+			$err.="<li> product price must be number!</li>";
+		}
+		if(!is_numeric($qty)){
+			$err.="<li> product quantity must be number!</li>";
+		}
+		if($err !=""){
+			echo "<ul> $err </ul>";
+		}else{
+			if($pic['name']!="")
+			{
+				if($pic['type']=="image/jpg" || $pic['type']=="image/jpeg" || $pic['type']=="image/png" || $pic['type']=="image/gif"){
+					if($pic['size']<=614400)
+					{
+						$sq = "Select * from product where Product_ID !='$id' and Product_Name ='$proname'";
+						$result = pg_query($conn,$sq);
+						if(pg_num_rows($result)==0)
+						{
+							copy($pic['tmp_name'],"product-imgs/".$pic['name']);
+							$filepic=$pic['name'];
+							$sqlstring = "UPDATE product set 
+							Product_Name = '$proname', Price = $price, SmallDesc = '$short',
+							DetailDesc = '$detail', Pro_qty = $qty,
+							Pro_image='$filepic', Cat_ID ='$category',
+							ProDate = '".date('Y-m-d H:i:s')."' WHERE Product_ID = '$id'";
+							pg_query($conn,$sqlstring);
+							echo '<meta http-equiv="refresh" content = "0;URL= Product_Management.php"/>';
+						}
+						else
+						{
+							echo '<li> Duplicate ID or Name';
+						}
+					}
+					else
+					{
+						echo "size of image too big";
+					}
 				}
 				else
 				{
-					echo "<option value='".$row['cat_id']."'>".$row['cat_name']."</option>";
+					echo "image format is not correct";
 				}
 			}
-		echo "</select>";
-	}
-	function bind_Branch_List($conn, $selectedValue)
-	{
-		$sqlString = "SELECT branch_id, branch_name from branch";
-		$result = pg_query($conn, $sqlString);
-		echo "<SELECT name ='BranchList' class='from-control'>
-			<option value='0'>Choose Branch</option>";
-			while ($row=pg_fetch_array($result,NULL, PGSQL_ASSOC))
+			else
 			{
-				if($row['branch_name']==$selectedValue)
+				$sq = "Select * from product where Product_ID !='$id' and Product_Name ='$proname'";
+				$result = pg_query($conn,$sq);
+				if(pg_num_rows($result)==0)
 				{
-					echo "<option value ='".$row['branch_id']."' selected>".$row['branch_name']."</option>";
-				}
-				else
-				{
-					echo "<option value='".$row['branch_id']."'>".$row['branch_name']."</option>";
-				}
+					$sqlstring = "UPDATE product set Product_Name = '$proname',
+					Price = $price, SmallDesc = '$short', DetailDesc = '$detail', 
+					Pro_qty = $qty,Cat_ID ='$category',
+					ProDate='".date('Y-m-d H:i:s')."' WHERE Product_ID = '$id'";
+
+					pg_query($conn,$sqlstring);
+					echo '<meta http-equiv="refresh" content = "0;URL= ?page=product"/>';
+					}
+					else
+					{
+						echo '<li> Duplicate ID or Name';
+					}
 			}
-		echo "</select>";
+		}
 	}
-	if(isset($_GET['id']))
-	{
-		$id = $_GET['id'];
-		$sqlString = "SELECT product_name, price, smalldesc, detaildesc, prodate, pro_qty, pro_image, cat_id, branch_id from product where product_id='$id'";
+?>
+<?php
+	include_once ("connection.php");
+	if(isset($_GET["id"])){
+		$id = $_GET["id"];
+		$sqlstring = "Select Product_Name , Price, SmallDesc, DetailDesc, ProDate, Pro_qty,
+		Pro_image, Cat_ID from product where Product_id='$id'";
+		$result = pg_query($conn,$sqlstring);
+		$row = pg_fetch_array($result);
 
-		$result = pg_query($conn, $sqlString);
-		$row = pg_fetch_array($result, NULL, PGSQL_ASSOC);
-
-		$proname = $row['product_name'];
-		$short = $row['smalldesc'];
-		$detail = $row['detaildesc'];
-		$price = $row['price'];
-		$qty = $row['pro_qty'];
-		$pic = $row['pro_image'];
-		$category = $row['cat_id'];
-		$branch = $row['branch_name'];
+		$proname = $row['Product_Name'];
+		$short = $row['SmallDesc'];
+		$detail = $row['DetailDesc'];
+		$price = $row['Price'];
+		$qty = $row['Pro_qty'];
+		$pic = $row['Pro_image'];
+		$category = $row['Cat_ID'];
+?>
+<?php	
+	}	
+	else{
+		echo '<meta http-equiv="refresh" content ="0;URL=?page=product"/>';
+	}
 ?>
 <div class="container">
 	<h2>Updating Product</h2>
@@ -133,142 +139,86 @@ echo "<SELECT name ='CategoryList' class='from-control'>
 					<label for="txtTen" class="col-sm-2 control-label">Product ID(*):  </label>
 							<div class="col-sm-10">
 								  <input type="text" name="txtID" id="txtID" class="form-control" 
-								  placeholder="Product ID" readonly value='<?php echo $id?>'/>
+								  placeholder="Product ID" readonly value='<?php echo $id; ?>'/>
 							</div>
 				</div> 
 				<div class="form-group"> 
 					<label for="txtTen" class="col-sm-2 control-label">Product Name(*):  </label>
 							<div class="col-sm-10">
 								  <input type="text" name="txtName" id="txtName" class="form-control" 
-								  placeholder="Product Name" value='<?php echo $row["product_name"]?>'/>
+								  placeholder="Product Name" value='<?php echo $proname; ?>'/>
 							</div>
                 </div>   
                 <div class="form-group">   
-                    <label for="" class="col-sm-5 control-label">Product category(*):  </label>
+                    <label for="" class="col-sm-2 control-label">Product category(*):  </label>
 							<div class="col-sm-10">
-								<?php bind_Category_List($conn, $category); ?>
-							      
+							      <?php bind_Category_List($conn,$category); ?>
 							</div>
                 </div>  
                           
                 <div class="form-group">  
-                    <label for="lblPrice" class="col-sm-12 control-label">Price(*):  </label>
+                    <label for="lblGia" class="col-sm-2 control-label">Price(*):  </label>
 							<div class="col-sm-10">
-							      <input type="text" name="txtPrice" id="txtPrice" class="form-control" placeholder="Price" value="<?php echo $price?>"/>
+							      <input type="text" name="txtPrice" id="txtPrice" class="form-control" placeholder="Price" value='<?php echo $price; ?>'/>
 							</div>
                  </div>   
-				 <div class="form-group">   
-                    <label for="" class="col-sm-5 control-label">Branch category(*):  </label>
-							<div class="col-sm-10">
-								<?php bind_Branch_List($conn, $branch); ?>
-							      
-							</div>
-                </div>  
+                            
                 <div class="form-group">   
-                    <label for="lblShort" class="col-sm-5 control-label">Short description(*):  </label>
+                    <label for="lblShort" class="col-sm-2 control-label">Short description(*):  </label>
 							<div class="col-sm-10">
-							      <input type="text" name="txtShort" id="txtShort" class="form-control" placeholder="Short description" value="<?php echo $short?>"/>
+							      <input type="text" name="txtShort" id="txtShort" class="form-control" placeholder="Short description" value='<?php echo $short; ?>'/>
 							</div>
                 </div>
                             
-                <div class="form-group">   
-                    <label for="lblDetail" class="col-sm-5 control-label">Detail Description(*):  </label>
-<div class="col-sm-10">
-							      <textarea type="text" name="txtDetail" id="txtDetail" class="form-control" style="height: 150px" row="4" value="<?php echo $detail?>"></textarea>
+                <div class="form-group">  
+        	        <label for="lblDetail" class="col-sm-2 control-label">Detail description(*):  </label>
+							<div class="col-sm-10">
+							      <textarea name="txtDetail" rows="4" class="ckeditor"><?php echo $detail; ?></textarea>
+              					  <script language="javascript">
+                                        CKEDITOR.replace( 'txtDetail',
+                                        {
+                                            skin : 'kama',
+                                            extraPlugins : 'uicolor',
+                                            uiColor: '#eeeeee',
+                                            toolbar : [ ['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
+                                                ['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
+                                                ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+                                                ['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
+                                                ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
+                                                ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
+                                                ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
+                                                ['Link','Unlink','Anchor', 'NumberedList','BulletedList','-','Outdent','Indent'],
+                                                ['Image','Flash','Table','Rule','Smiley','SpecialChar'],
+                                                ['Style','FontFormat','FontName','FontSize'],
+                                                ['TextColor','BGColor'],[ 'UIColor' ] ]
+                                        });	
+                                    </script> 
+                                  
 							</div>
                 </div>
                             
             	<div class="form-group">  
                     <label for="lblSoLuong" class="col-sm-2 control-label">Quantity(*):  </label>
 							<div class="col-sm-10">
-							      <input type="number" name="txtQty" id="txtQty" class="form-control" placeholder="Quantity" value="<?php echo $qty ?>"/>
+							      <input type="number" name="txtQty" id="txtQty" class="form-control" placeholder="Quantity" value="<?php echo $qty; ?>"/>
 							</div>
                 </div>
  
 				<div class="form-group">  
 	                <label for="sphinhanh" class="col-sm-2 control-label">Image(*):  </label>
 							<div class="col-sm-10">
-							<img src='ATNtoy/<?php echo $pic; ?>' border='0' width="50" height="50"  />
+							<img src='product-imgs/<?php echo $pic; ?>' border='0' width="50" height="50"  />
 							      <input type="file" name="txtImage" id="txtImage" class="form-control" value=""/>
 							</div>
                 </div>
                         
 				<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-						      <input type="submit"  class="site-btn" name="btnUpdate" id="btnUpdate" value="Update" />
-                              <input type="button" class="site-btn" name="btnIgnore"  id="btnIgnore" value="Ignore" onclick="window.location='?page=pm'" />
+						      <input type="submit"  class="btn btn-primary" name="btnUpdate" id="btnUpdate" value="Update"/>
+                              <input type="button" class="btn btn-primary" name="btnIgnore"  id="btnIgnore" value="Ignore" onclick="window.location='?page=product'" />
                               	
 						</div>
 				</div>
 			</form>
 </div>
-<?php
-	if(isset($_POST['btnUpdate']))
-	{
-		$id = $_POST['txtID'];
-		$proname = $_POST['txtName'];
-		$short = $_POST['txtShort'];
-		$detail = $_POST['txtDetail'];
-		$price = $_POST['txtPrice'];
-		$qty = $_POST['txtQty'];
-		$pic = $_FILES['txtImage'];
-		$cat = $_POST['CategoryList'];
-		$branch = $_POST['BranchList'];
-		$err = "";
 
-		
-		if($err !="")
-		{
-			$err .= "Enter ID</br>";
-		}
-		else
-		{
-			if($pic['name'] != "")
-			{
-				if ($pic['type']=="image/jpg" || $pic['type']=="image/jpeg"|| 
-					$pic['type']=="image/png" || $pic['type']=="image/gif")
-				{
-					if($pic['size']<=614400)
-					{
-						
-							copy($pic['tmp_name'], "ATNtoy/".$pic['name']);
-							$filepic = $pic['name'];
-							
-							$sqlString = "UPDATE product set product_name ='$proname', price = '$price', smalldesc ='$short', detaildesc ='$detail', pro_qty ='$qty', pro_image ='$filepic', cat_id ='$cat', branch_name = '$branch', 
-							prodate ='".date('Y-m-d H:i:s')."' where product_id ='$id'";
-							pg_query($conn,$sqlString);
-							echo '<meta http-equiv="refresh" content="0;URL=?page=pm"';	
-					
-					}
-					else
-					{
-						echo "Image too large</br>";
-					}
-				}
-				else
-				{
-					echo "Incorrect format</br>";
-				}
-			}
-			else
-			{
-				
-					$sqlString = "UPDATE product set product_name ='$proname', price = '$price', smalldesc ='$short',  detaildesc ='$detail', pro_qty='$qty', cat_id='$cat',branch_id= '$branch', 
-					prodate='".date('Y-m-d H:i:s')."' where product_id ='$id'";
-					pg_query($conn,$sqlString);
-					echo '<meta http-equiv="refresh" content="0;URL =?page=pm"';	
-					
-			
-			}
-		}
-	}
-?>
-
-<?php
-	}
-	else
-	{
-		echo "Duplicate name</br>";
-		
-	}
-?>
