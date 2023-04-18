@@ -24,7 +24,7 @@ if (isset($_POST['btnRegister'])) {
     } elseif ($pwd1 != $pwd) {
         echo "<script>alert('Confirmation password incorrectly')</script>";
     } else {
-        $sqlInsertUser = "INSERT INTO public.users(login_id, password, full_name, gender, phone, email, address, date_of_birht)
+        $sqlInsertUser = "INSERT INTO public.users(login_id, password, full_name, gender, phone, email, address, birthday)
                             VALUES ('$uname', '$pwd', '$fname', '$gender', '$telephone', '$email', '$address', '$year-$month-$date');";
 
         if (!pg_query($conn, $sqlInsertUser)) {
@@ -115,7 +115,7 @@ if (isset($_POST['btnRegister'])) {
         </div>
 
         <div class="form-group">
-            <label for="lblNgaySinh" class="col-sm-2 control-label">Date of Birth(*): </label>
+            <label for="lblNgaySinh" class="col-sm-2 control-label">Birthday(*): </label>
             <div class="col-sm-10 input-group">
                 <!-- <input type="date" id="txtBirth" name="txtBirth">  -->
                 <span class="input-group-btn">
