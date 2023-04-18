@@ -140,8 +140,8 @@ $count = 0;
                             <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="login.php">Login</a></li>
-                            <li><a class="dropdown-item" href="register.php">Register</a></li>
+                            <li><a class="dropdown-item" href="login.php">login</a></li>
+                            <li><a class="dropdown-item" href="register.php">register</a></li>
                         </ul>
                     <?php } ?>
                 </div>
