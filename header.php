@@ -118,7 +118,7 @@ $count = 0;
                         data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="cart.php">
+                    <a class="nav-icon position-relative text-decoration-none" href="Cart.php">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"><?=$count?></span>
                     </a>
@@ -133,15 +133,15 @@ $count = 0;
                                 <p class="dropdown-item"></p>
                             </li>
                             <li><a class="dropdown-item" href="orderHistory.php">Order history</a></li>
-                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                            <li><a class="dropdown-item" href="Logout.php">Logout</a></li>
                         </ul>
                     <?php } else { ?>
                         <a class="nav-link dropdown-toggle d-flex" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="login.php">login</a></li>
-                            <li><a class="dropdown-item" href="register.php">register</a></li>
+                            <li><a class="dropdown-item" href="Login.php">Login</a></li>
+                            <li><a class="dropdown-item" href="Register.php">Register</a></li>
                         </ul>
                     <?php } ?>
                 </div>
