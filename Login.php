@@ -24,7 +24,7 @@
         }else{
             include_once("connection.php");
             $pass = md5($pa);
-            $res = pg_query($conn," SELECT Username, Password, state FROM users WHERE Username = '$us' AND Password = '$pass'");
+            $res = pg_query($conn," SELECT Username, Password, state FROM user WHERE Username = '$us' AND Password = '$pass'");
             $row = pg_fetch_array($res);
             if(pg_num_rows($res)==1){
                 $_SESSION["us"] = $us;
